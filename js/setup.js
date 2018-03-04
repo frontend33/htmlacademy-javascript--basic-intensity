@@ -41,9 +41,18 @@ var EyesColorArray=RandomValues(wizardEyesColor);
 
 var userDialog=document.querySelector('.setup')
 //Удаляем класс hidden что бы показать окно с волшебниками
-userDialog.classList.remove('hidden');
-
-
+// userDialog.classList.remove('hidden');
+// Написали обработчик события что бы удалить класс hidden с класса setup
+var setupOpen=document.querySelector('.setup-open');
+setupOpen.addEventListener('click',function(){
+	userDialog.classList.remove('hidden')
+})
+// Теперь создаю обработчик события что бы закрыть окно 
+// Ищем именно в нашем блоке с классом .setup (Не большая оптимизация)
+var setupClose=userDialog.querySelector('.setup-close');
+setupClose.addEventListener('click',function(){
+	userDialog.classList.add('hidden');
+})
 
 //Далее необходимо сгенерировтаь несколько волшебников и показать их
 //Список похожих персонажей

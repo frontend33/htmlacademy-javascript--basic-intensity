@@ -1,26 +1,48 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
-	<head>
-		<meta charset="UTF-8" />
+<head>
+	<meta charset="UTF-8" />
 	
+	<style>
+	div{
+		border:dotted 3px #ccc;
+		padding:30px;
+		text-align:center;
+	}
 
-		<link rel="stylesheet" type="text/css" href="css/normalize.css" />
-		<link rel="stylesheet" type="text/css" href="css/demo.css" />
-		<link rel="stylesheet" type="text/css" href="css/component.css" />
-		<!--[if IE]>
-		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-	</head>
-	<body>
-		<div class="container demo-1">
-			<h1 class="arrayRandom"></h1>
-		</div>
 
-	<template id="similar-wizard-template">
-		<div class="container demo-1">
-			
+	button{
+		transform:scale(2);
+	}
+	div{
+		background: #fff;
+	}
+	div.clicked{
+		background: rgba(0,255,128,0.3);
+	}
+</style>
+
+</head>
+
+<body>
+	<div id="first">
+		<div id="second">
+			<div id="third">
+				<button id="clickable">Click me!</button>
+
+			</div>
 		</div>
-</template>
-	</body>
-			<script src="js/demo-1.js"></script>
+		
+		
+	</div>
+
+
+
+
+	<a href = "https://github.com/frontend33"  style="text-decoration: none">My github не перейдешь по ссылке</a>
+
+
+
+</body>
+<script src="js/demo-1.js"></script>
 </html>
