@@ -1,5 +1,7 @@
 'use strict'
 //Создаем массив, что бы взять с них имена волшебников
+const ESC_KEYCODE=27;
+const ENTER_KEYCODE=13;
 
 var WIZARD_NAMES=['Кирилл Андреев','Вашингтон','Никита Волошин','Вера','Николай','Иван','Хуан Себастьян','Виктор','Август'];
 var WIZARD_SURNAME=['да Марья','Верон','Мирабелла','Вальц','Онопко','Топольницкая','Нионго','Ирвинг']
@@ -42,19 +44,94 @@ var EyesColorArray=RandomValues(wizardEyesColor);
 var userDialog=document.querySelector('.setup')
 //Удаляем класс hidden что бы показать окно с волшебниками
 // userDialog.classList.remove('hidden');
-// Написали обработчик события что бы удалить класс hidden с класса setup
+// Написали обработчик события что бы удалить класс hidden с класса setup и
+// Обработка событий при помощи клавиатуры
+// Открытие popup
 var setupOpen=document.querySelector('.setup-open');
+// Находим элемент при нажатии на который будем закрывать наш popup
+var setupClose=userDialog.querySelector('.setup-close');
+var onPopupEscPress=function(evt){
+	// 
+	if (nameForm === document.activeElement) {
+		return evt
+	}
+	else if (evt.keyCode===ESC_KEYCODE){
+		closePopup();	
+	// }else if (evt.keyCode===ENTER_KEYCODE){
+	// 	closePopup();	
+
+	}
+	
+};
+// Вынесли все события вверх
+// Есть функция открытия popup
+var openPopup=function(){
+	userDialog.classList.remove('hidden');
+	document.addEventListener("keydown",onPopupEscPress)
+};
+
+
+// Есть функция закрытия popup
+var closePopup=function(){
+	userDialog.classList.add('hidden');
+	document.removeEventListener("keydown",onPopupEscPress)
+};
+
+// Обработчики просто вызывают эти функции и больше ничего не делают
 setupOpen.addEventListener('click',function(){
-	userDialog.classList.remove('hidden')
-})
+	openPopup();
+});
+
+// При нажатии на кнопку 13 ENTER мы раскроем наш popup
+setupOpen.addEventListener("keydown",function(evt){
+	if (evt.keyCode===ENTER_KEYCODE){
+		openPopup();
+	}
+});
+
 // Теперь создаю обработчик события что бы закрыть окно 
 // Ищем именно в нашем блоке с классом .setup (Не большая оптимизация)
-var setupClose=userDialog.querySelector('.setup-close');
+
 setupClose.addEventListener('click',function(){
-	userDialog.classList.add('hidden');
+	closePopup();
+
+});
+//Сделаем событие при помощи кнопки ентер
+setupClose.addEventListener('keydown',function(evt){
+	if(evt.keyCode===ENTER_KEYCODE){
+		closePopup()
+	}
+});
+
+// Напишем валидацию для нашего input
+var userNameInput=userDialog.querySelector(".setup-user-name");
+userNameInput.addEventListener("invalid",function(evt){
+	if (userNameInput.validity.tooShort){
+		userNameInput.setCustomValidity('Йоу Имя должно состоять как минимум из двух символов')
+	}else if (userNameInput.validity.tooLong){
+		userNameInput.setCustomValidity("Имя не должно превышать 25 ти символов");
+	}else if (userNameInput.validity.valueMissing){
+		userNameInput.setCustomValidity("Обязательное поле укажите ваш ник");
+	}
+	else{
+		userNameInput.setCustomValidity('');
+	}
 })
 
-//Далее необходимо сгенерировтаь несколько волшебников и показать их
+// Если по какой то причине у нас не поддерживается какая либо функция мы можем прописывать 
+// ее так как мы хотим
+userNameInput.addEventListener("input",function(evt){
+	if (target.value.length<2){
+		target.setCustomValidity("Имя должно состоять минимум из 2-х символов");
+	}else{
+		target.setCustomValidity('');
+	}
+});
+
+
+
+
+//Далее необходимо сгенерировать несколько волшебников и показать их
 //Список похожих персонажей
 var similarListElement=document.querySelector('.setup-similar-list');
 
