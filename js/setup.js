@@ -1,4 +1,6 @@
-'use strict'
+'use strict';
+
+(function () {
 //Создаем массив, что бы взять с них имена волшебников
 const ESC_KEYCODE=27;
 const ENTER_KEYCODE=13;
@@ -52,7 +54,7 @@ var setupOpen=document.querySelector('.setup-open');
 var setupClose=userDialog.querySelector('.setup-close');
 var onPopupEscPress=function(evt){
 	// 
-	if (nameForm === document.activeElement) {
+	if (userDialog === document.activeElement) {
 		return evt
 	}
 	else if (evt.keyCode===ESC_KEYCODE){
@@ -102,6 +104,7 @@ setupClose.addEventListener('keydown',function(evt){
 		closePopup()
 	}
 });
+
 
 // Напишем валидацию для нашего input
 var userNameInput=userDialog.querySelector(".setup-user-name");
@@ -204,3 +207,100 @@ for (var i=0;i<wizards.length;i++){
 similarListElement.appendChild(fragment);
 //И уберем скрытый блок с setup-similar hidden Похожие персонажи
 userDialog.querySelector('.setup-similar').classList.remove('hidden');
+
+
+
+// Находим изображение которое будем двигать при помощи драг энд дропа
+var setup=document.querySelector(".setup")
+var dialogHandel=setup.querySelector(".upload")
+console.log(dialogHandel)
+// Фиксируем нажатие кнопка мыши над элементом при помощи mousedown
+dialogHandel.addEventListener("mousedown",function(evt){
+	// Отменяем все стандартные действия мало ли картинка имеет возможность переноса 
+	evt.preventDefault();
+	// Записываем изначальные координаты в момент начала движения
+	var startCoords={
+		x: evt.clientX,
+		y: evt.clientY
+	};
+ 
+	var onMouseMove=function(moveEvt){
+		moveEvt.preventDefault();
+		// В объект shift записывается смещение относительно стартовых координат 
+		var shift={
+			x: startCoords.x - moveEvt.clientX,
+			y: startCoords.y - moveEvt.clientY
+		};
+		// Мы перезаписываем startCoords что бы считать смещения от новой точки отправления
+		startCoords={
+			x:moveEvt.clientX,
+			y:moveEvt.clientY
+		};
+
+		//setup.offsetTop количество пикселей на которые делается отступ с верху, отсносительно родительского элемента.
+		setup.style.top=(setup.offsetTop-shift.y)+"px";
+		setup.style.left=(setup.offsetLeft-shift.x)+"px";
+
+	}
+
+	// Функция  удаляет обработчики перемещения , что бы после захвата и отпускания он вставал на нужное место и не пермещался дальше
+var onMouseUp=function(upEvt){
+	upEvt.preventDefault();
+	document.removeEventListener("mousemove",onMouseMove)
+	document.removeEventListener("mouseup",onMouseUp)
+};
+
+
+	document.addEventListener("mousemove",onMouseMove)
+	document.addEventListener("mouseup",onMouseUp)
+});
+
+//Блок с которого будем утаскивать элементы
+var shopElement=document.querySelector(".setup-artifacts-shop")
+var draggItem=null;
+
+// Описываем событие в момент когда мы начинаем перетаскивать наш элемент
+shopElement.addEventListener("dragstart",function(evt){
+	if(evt.target.tagName.toLowerCase()==="img"){
+		draggItem=evt.target
+		// Объект DataTransfer используется для хранения данных, перетаскиваемых мышью во время операции drag and drop
+		// Когда создается события перемещения создается специальный объект перемещения который описывает что именно мы перетаскиваем
+		// и передаем в текстовом формате ,и пишем инфу которую перетаскиваем в  альт
+		evt.dataTransfer.setData("text/plain",evt.target.alt)
+
+	}
+})
+// Сбрасываем настройййки по умолчанию в момент события dragover
+var artifactsElement=document.querySelector(".setup-artifacts");
+artifactsElement.addEventListener("dragover",function(evt){
+	evt.preventDefault();
+	return false;
+})
+
+// Событие когда я в drag zone перетаскиваю какой то элемент и отпускаю его
+// И если элемент туда падает выполняется код который мне нужен
+
+artifactsElement.addEventListener("drop",function(evt){
+	evt.target.style.backgroundColor="";
+	// В момент переноса сохранили переменную draggItem и добавляем в тот элемент который drop -аем звездочку которую перетаскиваем
+	evt.target.appendChild(draggItem.cloneNode(true));
+	evt.preventDefault();
+})
+
+// Когда перетаскиваем элемент внутрь каждой из ячеек
+// При перетаскивании квадрат загорится желтым цветом
+artifactsElement.addEventListener("dragenter",function(evt){
+	evt.target.style.backgroundColor="yellow";
+	evt.preventDefault();
+})
+
+//  Когда утаскиваю элемент из ячеек
+// при утаскивании квадрат не будет гореть желтым цветом
+artifactsElement.addEventListener("dragleave",function(evt){
+	evt.target.style.backgroundColor="";
+	evt.preventDefault();
+
+	})
+
+
+})();
