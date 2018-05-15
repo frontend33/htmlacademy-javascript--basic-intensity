@@ -1,9 +1,7 @@
 'use strict';
 
 (function () {
-//Создаем массив, что бы взять с них имена волшебников
-const ESC_KEYCODE=27;
-const ENTER_KEYCODE=13;
+
 
 var WIZARD_NAMES=['Кирилл Андреев','Вашингтон','Никита Волошин','Вера','Николай','Иван','Хуан Себастьян','Виктор','Август'];
 var WIZARD_SURNAME=['да Марья','Верон','Мирабелла','Вальц','Онопко','Топольницкая','Нионго','Ирвинг']
@@ -43,71 +41,13 @@ var SurNameArray=RandomValues(WIZARD_SURNAME);
 var coatColorArray=RandomValues(wizardCoatColor);
 var EyesColorArray=RandomValues(wizardEyesColor);
 
-var userDialog=document.querySelector('.setup')
-//Удаляем класс hidden что бы показать окно с волшебниками
-// userDialog.classList.remove('hidden');
-// Написали обработчик события что бы удалить класс hidden с класса setup и
-// Обработка событий при помощи клавиатуры
-// Открытие popup
-var setupOpen=document.querySelector('.setup-open');
-// Находим элемент при нажатии на который будем закрывать наш popup
-var setupClose=userDialog.querySelector('.setup-close');
-var onPopupEscPress=function(evt){
-	// 
-	if (userDialog === document.activeElement) {
-		return evt
-	}
-	else if (evt.keyCode===ESC_KEYCODE){
-		closePopup();	
-	// }else if (evt.keyCode===ENTER_KEYCODE){
-	// 	closePopup();	
-
-	}
-	
-};
-// Вынесли все события вверх
-// Есть функция открытия popup
-var openPopup=function(){
-	userDialog.classList.remove('hidden');
-	document.addEventListener("keydown",onPopupEscPress)
-};
 
 
-// Есть функция закрытия popup
-var closePopup=function(){
-	userDialog.classList.add('hidden');
-	document.removeEventListener("keydown",onPopupEscPress)
-};
-
-// Обработчики просто вызывают эти функции и больше ничего не делают
-setupOpen.addEventListener('click',function(){
-	openPopup();
-});
-
-// При нажатии на кнопку 13 ENTER мы раскроем наш popup
-setupOpen.addEventListener("keydown",function(evt){
-	if (evt.keyCode===ENTER_KEYCODE){
-		openPopup();
-	}
-});
-
-// Теперь создаю обработчик события что бы закрыть окно 
-// Ищем именно в нашем блоке с классом .setup (Не большая оптимизация)
-
-setupClose.addEventListener('click',function(){
-	closePopup();
-
-});
-//Сделаем событие при помощи кнопки ентер
-setupClose.addEventListener('keydown',function(evt){
-	if(evt.keyCode===ENTER_KEYCODE){
-		closePopup()
-	}
-});
 
 
+// validation.js
 // Напишем валидацию для нашего input
-var userNameInput=userDialog.querySelector(".setup-user-name");
+var userNameInput=document.querySelector(".setup-user-name");
 userNameInput.addEventListener("invalid",function(evt){
 	if (userNameInput.validity.tooShort){
 		userNameInput.setCustomValidity('Йоу Имя должно состоять как минимум из двух символов')
@@ -206,7 +146,7 @@ for (var i=0;i<wizards.length;i++){
 
 similarListElement.appendChild(fragment);
 //И уберем скрытый блок с setup-similar hidden Похожие персонажи
-userDialog.querySelector('.setup-similar').classList.remove('hidden');
+document.querySelector('.setup-similar').classList.remove('hidden');
 
 
 
