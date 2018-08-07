@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+var setup=document.querySelector(".setup")
 
 
 var WIZARD_NAMES=['Кирилл Андреев','Вашингтон','Никита Волошин','Вера','Николай','Иван','Хуан Себастьян','Виктор','Август'];
@@ -110,6 +111,8 @@ var wizards=[
 	
 }
 ]
+
+console.log(wizards)
 /*
 //создаем цикл который будет перебирать 4 элемента
 for (var i=0;i<wizards.length;i++){
@@ -134,24 +137,46 @@ var renderWizard=function(wizard){
 	wizardElement.querySelector('.wizard-coat').style.fill=wizard.coatColor;
 	wizardElement.querySelector('.wizard-eyes').style.fill=wizard.coatEyes;
 	return wizardElement;
+
 	}
+
+// window.load(function(wizards){
+// 	var fragment=document.createDocumentFragment();
+// 	for (var i=0; i<4; i++){
+// 		fragment.appendChild(renderWizard(wizards[i]))
+// 	}
+// 	similarListElement.appendChild(fragment)
+// 	setup.querySelector('.setup-similar').classList.remove('hidden');
+
+// })
+
 	
-//Что бы браузер не перерисовывал 4 раза , мы создаем фрагмент и в нем прорисовывается 4 элемента за один раз
-var fragment=document.createDocumentFragment();
-for (var i=0;i<wizards.length;i++){
-	//Во fragment добавляем наших волшебников
-	fragment.appendChild(renderWizard(wizards[i]));
-}
-//И потом добавляем наш фрагмент в список похожих волшебников 
+// //Что бы браузер не перерисовывал 4 раза , мы создаем фрагмент и в нем прорисовывается 4 элемента за один раз
+// var fragment=document.createDocumentFragment();
+// for (var i=0;i<wizards.length;i++){
+// 	//Во fragment добавляем наших волшебников
+// 	fragment.appendChild(renderWizard(wizards[i]));
+// }
+// //И потом добавляем наш фрагмент в список похожих волшебников 
 
-similarListElement.appendChild(fragment);
-//И уберем скрытый блок с setup-similar hidden Похожие персонажи
-document.querySelector('.setup-similar').classList.remove('hidden');
+// similarListElement.appendChild(fragment);
+// //И уберем скрытый блок с setup-similar hidden Похожие персонажи
+// // var setup=document.querySelector(".setup")
+// setup.querySelector('.setup-similar').classList.remove('hidden');
 
 
+// При клике на кнопку сохранить отправить форму на сервер
+var form=setup.querySelector('.setup-wizard-form');
+form.addEventListener('submit', function(evt){
+	// Вызываем upload
+	window.upload(new FormatData(form),function(response){
+		setup.classList.add('hidden');
+	})
+	// Сбрасываем настройки по умолчанию что бы форма перестала перезагружать страницу
+	evt.preventDefault();
+})
 
 // Находим изображение которое будем двигать при помощи драг энд дропа
-var setup=document.querySelector(".setup")
 var dialogHandel=setup.querySelector(".upload")
 console.log(dialogHandel)
 // Фиксируем нажатие кнопка мыши над элементом при помощи mousedown
