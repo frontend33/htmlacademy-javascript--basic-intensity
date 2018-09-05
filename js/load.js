@@ -1,6 +1,6 @@
 'use strict';
 (function(){
-	window.load=function(onSuccess,onError){
+window.load=function(onSuccess,onError){
 	// 1. Создаём новый объект XMLHttpRequest
 	var xhr = new XMLHttpRequest();
 	xhr.responseType = "json";

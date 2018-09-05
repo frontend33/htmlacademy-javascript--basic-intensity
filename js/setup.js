@@ -20,23 +20,74 @@
         var wizardElement = similarWizardTemplate.cloneNode(true);
         wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
         wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
-        wizardElement.querySelector('.wizard-eyes').style.fill = wizard.coatEyes;
+        wizardElement.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
         return wizardElement;
     }
 
     // _________________
-
-    window.load(function(wizards) {
-        console.log(wizards)
-        var fragment = document.createDocumentFragment();
+    // Функция рандомных ключей из массива 
+    var randomValues =function(item){
+        var wizardsRandom = [];
         for (var i = 0; i < 4; i++) {
-            fragment.appendChild(renderWizard(wizards[i]));
+            var index = Math.floor(Math.random() * item.length);
+            console.log()
+            var removed = item.splice(index, 1);
+            wizardsRandom.push(removed[0]);
+        }
+        return wizardsRandom
+    }
+
+    // 
+    var colorCoat;
+    var colorEyes;
+    // var wizards=[]
+    var getRank =function(wizard){
+        var rank=0;
+        if(wizards.colorCoat===colorCoat){
+            rank+=2
+        };
+        if(wizards.colorEyes===colorEyes){
+            rank+=1
+        };
+        return rank
+    }
+    var updateWizards=function(wizards){
+        console.log(wizards)
+        // window.render(wizards.sort(function(left,right){
+        //     return getRank(right)- getRank(left)
+        // }))
+    }
+
+
+
+// Функция вызывается из load.js
+    window.load(function(wizards) {
+  // Вызываю 4 рандомных числа
+        var randomWizards=randomValues(wizards)
+        var fragment = document.createDocumentFragment();
+        for (var i = 0; i < randomWizards.length; i++) {
+            fragment.appendChild(renderWizard(randomWizards[i]))
         }
         similarListElement.appendChild(fragment);
         setup.querySelector('.setup-similar').classList.remove('hidden');
+        var setupWizardElement=document.querySelector(".setup-wizard");
+        var wizardCoatElement=document.querySelector(".wizard-coat");
+        wizardCoatElement.addEventListener("click",function(){
+        var colorEyes=wizards.map(function(feature){
+             return feature.colorCoat
+        })
+            var newColor=randomValues(colorEyes)
+            this.style.fill=newColor[0]
+            colorCoat=newColor[0]
+            updateWizards(randomWizards)
+            // console.log(newColor[0])
+ 
+           
+        })
 
-    })
+    });
     // _________________
+
 
 
 
