@@ -2,6 +2,9 @@
 
 (function() {
 
+  var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
+  var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
+  var fireball = document.querySelector('.setup-fireball-wrap');
 
     // Находим изображение которое будем двигать при помощи драг энд дропа
     var setup = document.querySelector(".setup")
@@ -13,10 +16,9 @@
     //Запоминаем его как шаблон который будем клонировать  и мы обращаемся именно к (content) содержимому шаблона
     //Мы обращаемся к фрагменту который содержит все Node которые находятся внутри него
     //Мы берем именно .setup-similar-item его обертку , так как могут быть другие вложенности и после контента необходимо указать куда обратиться
-    var similarWizardTemplate = document.querySelector('#similar-wizard-template').content
-
+    
     var renderWizard = function(wizard) {
-        console.log(wizard)
+        var similarWizardTemplate = document.querySelector('#similar-wizard-template').content
         var wizardElement = similarWizardTemplate.cloneNode(true);
         wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
         wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
@@ -37,10 +39,11 @@
         return wizardsRandom
     }
 
-    // 
+ 
     var colorCoat;
     var colorEyes;
-    // var wizards=[]
+    var wizards=[]
+       /*
     var getRank =function(wizard){
         var rank=0;
         if(wizard.colorCoat===colorCoat){
@@ -61,30 +64,36 @@
             return 0
         }
     }
-    var updateWizards=function(wizards){
-        // window.render(wizards.sort(function(left,right){
-        //     // return getRank(right)- getRank(left)
-        //     var rankDiff=getRank(right)-getRank(left);
-        //     if(rankDiff===0){
-        //         rankDiff=namesComparator(left.name,right.name)
-        //     }
-        //     return rankDiff
-        // }))
-    }
 
-    // window.wizards.onEyesChange = function(color){
-    //     eyesColor=color;
-    //     updateWizards()
-    // }
-    // window.wizards.onCoatChange=function(color){
-    //     coatColor=color;
-    //     updateWizards();
-    // }
+
+
+    window.wizards.onEyesChange = function(color){
+        eyesColor=color;
+        updateWizards()
+    }
+    window.wizards.onCoatChange=function(color){
+        coatColor=color;
+        updateWizards();
+    }
     var successHandler=function(data){
+        console.log(data)
         wizards=data
         updateWizards()
     }
-
+    var errorHandler=function(errorMessage){
+        var node=document.createElement('div')
+        node.style='z-index:100; margin: 0 auto; text-align:center; background-color:red;';
+        node.style.position='absolute';
+        node.style.left=0;
+        node.style.right=0;
+        node.style.fontSize='30px';
+        node.textContent=errorMessage;
+        document.body.insertAdjacentElement('afterbegin',node);
+    }
+    var  URL='https://js.dump.academy/code-and-magick/data'
+    window.load=(URL,successHandler,errorHandler)
+    
+*/
 
 // Функция вызывается из load.js
     window.load(function(wizards) {
@@ -113,7 +122,7 @@
         })
 
     });
-    // _________________
+
 
 
 
@@ -137,7 +146,7 @@
     // ее так как мы хотим
     userNameInput.addEventListener("input", function(evt) {
         if (evt.target.value.length < 2) {
-            target.setCustomValidity("Имя должно состоять минимум из 2-х символов");
+            evt.target.setCustomValidity("Имя должно состоять минимум из 2-х символов");
         } else {
             evt.target.setCustomValidity('');
         }
