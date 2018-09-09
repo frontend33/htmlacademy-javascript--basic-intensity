@@ -16,7 +16,6 @@
     var similarWizardTemplate = document.querySelector('#similar-wizard-template').content
 
     var renderWizard = function(wizard) {
-        console.log(wizard)
         var wizardElement = similarWizardTemplate.cloneNode(true);
         wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
         wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
@@ -26,7 +25,7 @@
 
     // _________________
     // Функция рандомных ключей из массива 
-    var randomValues =function(item){
+    var randomValues = function(item) {
         var wizardsRandom = [];
         for (var i = 0; i < 4; i++) {
             var index = Math.floor(Math.random() * item.length);
@@ -35,38 +34,81 @@
             wizardsRandom.push(removed[0]);
         }
         return wizardsRandom
+
     }
+
+
 
     // 
     var colorCoat;
     var colorEyes;
     // var wizards=[]
-    var getRank =function(wizard){
-        var rank=0;
-        if(wizard.colorCoat===colorCoat){
-            rank+=2
-        };
-        if(wizard.colorEyes===colorEyes){
-            rank+=1
-        };
-        return rank
+    var listWizardSimilar = function(item) {
+       var rank = 0;
+       var colorCoat=document.querySelector('.wizard-coat').style.fill
+       var colorEyes=document.querySelector('.wizard-eyes').style.fill
+       var newWizSimilar =item.slice()
+       newWizSimilar.forEach(function(item){
+            item.rank=0
+       })
+       newWizSimilar.sort(function(wizard){
+            if(wizard.colorCoat === colorCoat){
+                // var a=newWizSimilar.indexOf(wizard)
+                wizard.rank += 2
+            }
+            if (wizard.colorEyes === colorEyes) {
+                wizard.rank += 1
+            };
+
+       })
+       
+
+    var newArraySort=newWizSimilar.filter(function(wizard){
+        return wizard.rank > 0
+    }); 
+    function compareAge(left, right) {
+        return  right.rank-left.rank;
     }
 
-    var namesComparator=function(left,right){
-        if(left>right){
-            return 1
-        }else if(left<right){
-            return -1
-        }else{
-            return 0
-        }
+    if ((newArraySort.length)>4){
+        newArraySort.sort(compareAge);
+        // newArraySort.reduce(function(previousValue, currentValue, index, array){
+        //      console.log(previousValue)
+        // })
+       
     }
-    var updateWizards=function(wizards){
-        // window.render(wizards.sort(function(left,right){
+    console.log(newArraySort)
+    return newArraySort
+
+    }
+
+
+    var updateWizards = function(wizards) {
+        // var wizardsRank=wizards.sort(function(left,right){
+        // })
+        wizards.forEach(function(item){
+            console.log(item.rank)
+        })
+        var similarSetupWizards = document.querySelectorAll('.setup-similar-item');
+        similarSetupWizards.forEach(function(item){
+            item.remove()
+        })
+        // setup-similar-list
+        // similarListElement.remove()
+        var fragment = document.createDocumentFragment();
+        for (var i = 0; i < wizards.length; i++) {
+            fragment.appendChild(renderWizard(wizards[i]))
+        }
+        // similarListElement.removeChild(similarSetupWizards)
+        // var similarListElement = document.querySelector('.setup-similar-list');
+        similarListElement.appendChild(fragment);
+        // var randomWizards = listWizardSimilar(wizards)
+
+        // window.render(wizards.sort(function(left, right) {
         //     // return getRank(right)- getRank(left)
-        //     var rankDiff=getRank(right)-getRank(left);
-        //     if(rankDiff===0){
-        //         rankDiff=namesComparator(left.name,right.name)
+        //     var rankDiff = getRank(right) - getRank(left);
+        //     if (rankDiff === 0) {
+        //         rankDiff = namesComparator(left.name, right.name)
         //     }
         //     return rankDiff
         // }))
@@ -80,37 +122,47 @@
     //     coatColor=color;
     //     updateWizards();
     // }
-    var successHandler=function(data){
-        wizards=data
-        updateWizards()
-    }
 
 
-// Функция вызывается из load.js
+    // Функция вызывается из load.js
     window.load(function(wizards) {
-  // Вызываю 4 рандомных числа
-        var randomWizards=randomValues(wizards)
+        var randomWizards = listWizardSimilar(wizards)
+        console.log(randomWizards)
+        // Вызываю 4 рандомных числа
+        // var randomWizards = randomValues(wizards)
+
         var fragment = document.createDocumentFragment();
         for (var i = 0; i < randomWizards.length; i++) {
             fragment.appendChild(renderWizard(randomWizards[i]))
         }
         similarListElement.appendChild(fragment);
         setup.querySelector('.setup-similar').classList.remove('hidden');
-        var setupWizardElement=document.querySelector(".setup-wizard");
-        var wizardCoatElement=document.querySelector(".wizard-coat");
+        var setupWizardElement = document.querySelector(".setup-wizard");
+        // куртка
+        var wizardCoatElement = document.querySelector(".wizard-coat");
+        // Глаза
+        var wizardEyesElement = document.querySelector(".wizard-eyes");
         // При клике меняем цвет куртки на рандомный цвет из массива
-        wizardCoatElement.addEventListener("click",function(){
-        var colorEyes=wizards.map(function(feature){
-             return feature.colorCoat
+        wizardCoatElement.addEventListener("click", function() {
+            var colorEyes = wizards.map(function(feature) {
+                return feature.colorCoat
+            })
+            var newColor = randomValues(colorEyes)
+            this.style.fill = newColor[0]
+            colorCoat = newColor[0]
+            updateWizards(listWizardSimilar(wizards))
         })
-            var newColor=randomValues(colorEyes)
-            this.style.fill=newColor[0]
-            colorCoat=newColor[0]
-            updateWizards(randomWizards)
-            // console.log(newColor[0])
- 
-           
+
+        wizardEyesElement.addEventListener("click", function() {
+            var colorEyes = wizards.map(function(feature) {
+                return feature.colorEyes
+            })
+            var newColor = randomValues(colorEyes)
+            this.style.fill = newColor[0]
+            colorEyes = newColor[0]
+            updateWizards(listWizardSimilar(wizards))
         })
+
 
     });
     // _________________
