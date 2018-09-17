@@ -1,7 +1,7 @@
 'use strict';
 (function(){
 	// Константа формата файлов которые интересуют , работаем с этими форматами
-	const FILE_TYPES=['gif','jpg','jpeg','png']
+	var FILE_TYPES=['gif','jpg','jpeg','png']
 	var fileChooser=document.querySelector(".upload input[type=file]")
 	var preview=document.querySelector('.setup-user-pic')
 	fileChooser.addEventListener("change",function(){

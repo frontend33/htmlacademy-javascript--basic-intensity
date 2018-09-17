@@ -199,8 +199,10 @@
 
 
 
+
+
+
     var dialogHandel = setup.querySelector(".upload")
-    console.log(dialogHandel)
 
     // Фиксируем нажатие кнопка мыши над элементом при помощи mousedown
     dialogHandel.addEventListener("mousedown", function(evt) {
@@ -211,9 +213,11 @@
             x: evt.clientX,
             y: evt.clientY
         };
-
+        // Добавляем флаг(Булевая переменная которая содержит true или false)
+        var dragged=false
         var onMouseMove = function(moveEvt) {
             moveEvt.preventDefault();
+            dragged=true
             // В объект shift записывается смещение относительно стартовых координат 
             var shift = {
                 x: startCoords.x - moveEvt.clientX,
@@ -228,7 +232,6 @@
             //setup.offsetTop количество пикселей на которые делается отступ с верху, отсносительно родительского элемента.
             setup.style.top = (setup.offsetTop - shift.y) + "px";
             setup.style.left = (setup.offsetLeft - shift.x) + "px";
-
         }
 
         // Функция  удаляет обработчики перемещения , что бы после захвата и отпускания он вставал на нужное место и не пермещался дальше
@@ -236,12 +239,20 @@
             upEvt.preventDefault();
             document.removeEventListener("mousemove", onMouseMove)
             document.removeEventListener("mouseup", onMouseUp)
+            if(dragged){
+                var onClickPreventDefault=function(evt){
+                    evt.preventDefault();
+                    dragged=false
+                    dialogHandel.removeEventListener('click', onClickPreventDefault)
+                };
+                dialogHandel.addEventListener('click',onClickPreventDefault)
+            }
         };
-
 
         document.addEventListener("mousemove", onMouseMove)
         document.addEventListener("mouseup", onMouseUp)
     });
+
 
     //Блок с которого будем утаскивать элементы
     var shopElement = document.querySelector(".setup-artifacts-shop")
