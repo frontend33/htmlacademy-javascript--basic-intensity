@@ -1,107 +1,104 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Mono&subset=latin,cyrillic">
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  <title>Javascript</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Mono&subset=latin,cyrillic">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>Javascript</title>
 </head>
+
 <body>
-  <h1>Первый</h1>
-  <h1>Второй</h1>
-  <h1>Третий</h1>
-  <h1>Четвертый</h1>
-
-
-  <script>
-    var headers=document.querySelectorAll("h1");
-    console.log(Array.from(headers).map(function(it){
-      return it.textContent
+    <h1>Первый</h1>
+    <h1>Второй</h1>
+    <h1>Третий</h1>
+    <h1>Четвертый</h1>
+    <script>
+    var headers = document.querySelectorAll("h1");
+    console.log(Array.from(headers).map(function(it) {
+        return it.textContent
     }))
 
-    var wizards=[
-      { 
-        "name": "Javascript",
-        "colorCoat": "rgb(241, 43, 107)",
-        "colorEyes": "yellow",
-      },
-      {
-        "name": "Python",
-        "colorCoat": "rgb(215, 210, 55)",
-        "colorEyes": "black",
-      },
-      {
-        "name": "Vue",
-        "colorCoat": "rgb(146, 100, 161)",
-        "colorEyes": "yellow",
-      },
-      {
-        "name": "Gulp",
-        "colorCoat": "rgb(146, 100, 161)",
-        "colorEyes": "yellow",
-      },
-  ];
-  // let wizardsName=[]
-  // wizards.forEach((feature) =>{
-  //   wizardsName.push(feature.name)
-  // })
-  // console.log(wizardsName)
+    var wizards = [{
+            "name": "Javascript",
+            "colorCoat": "rgb(241, 43, 107)",
+            "colorEyes": "yellow",
+        },
+        {
+            "name": "Python",
+            "colorCoat": "rgb(215, 210, 55)",
+            "colorEyes": "black",
+        },
+        {
+            "name": "Vue",
+            "colorCoat": "rgb(146, 100, 161)",
+            "colorEyes": "yellow",
+        },
+        {
+            "name": "Gulp",
+            "colorCoat": "rgb(146, 100, 161)",
+            "colorEyes": "yellow",
+        },
+    ];
+    // let wizardsName=[]
+    // wizards.forEach((feature) =>{
+    //   wizardsName.push(feature.name)
+    // })
+    // console.log(wizardsName)
 
-// Мапирование
-  var wizardNames=wizards.map(function(wizard){
-    // console.log(wizard);
-    return wizard.name;
-  });
-
-
-//фильтрация массива
-var yellowEyes=wizards.filter(function(wizard){
-  return wizard.colorEyes==='yellow';
-});
-// console.log(yellowEyes)
+    // Мапирование
+    var wizardNames = wizards.map(function(wizard) {
+        // console.log(wizard);
+        return wizard.name;
+    });
 
 
-// Сортировка массива по алфавиту
-// Деструктивный метод sort() изменяет исходный массив
-// Если хотим сохранить порядок нашего массива, просто сделаем копию массива slice(0) с 0 элемента 
-// Все деструктивные процедуры делать на копиях
-var wizordSort=wizards.slice(0).sort(function(first,second){
-  if(first.name>second.name){
-    return 1
-  }else if(first.name<second.name){
-    return -1
-  }else{
-    return 0
-  }
-});
-// console.log(wizordSort)
-
-  var arr=[3,2,1,10,14,23,13]
-  arr.sort(function(first,second){
-    return first-second
-  });
-  
-
-  // На основе массива получить одно значение
-  // Удобство метода reduce заключается в, том что он хранит промежуточное значение в параметер
-  // Итерирует с начала массива в конец отличие от reduceRight 
-var party ='Zho пригласил на вечеринку: ';
-var result=wizordSort.reduce(function(prevElem,item,i,array){
-  var message=prevElem + item.name;
-  if (i !== (array.length -1)){
-    message+=' ,';
-  }
-  return message;
-  },party);
-// console.log(result)
-
-var inviteList=wizordSort.map(function(it) {
-  return it.name;
-}).join(' --> ')
-// console.log(party+inviteList)
+    //фильтрация массива
+    var yellowEyes = wizards.filter(function(wizard) {
+        return wizard.colorEyes === 'yellow';
+    });
+    // console.log(yellowEyes)
 
 
-  </script>
+    // Сортировка массива по алфавиту
+    // Деструктивный метод sort() изменяет исходный массив
+    // Если хотим сохранить порядок нашего массива, просто сделаем копию массива slice(0) с 0 элемента 
+    // Все деструктивные процедуры делать на копиях
+    var wizordSort = wizards.slice(0).sort(function(first, second) {
+        if (first.name > second.name) {
+            return 1
+        } else if (first.name < second.name) {
+            return -1
+        } else {
+            return 0
+        }
+    });
+    // console.log(wizordSort)
 
+    var arr = [3, 2, 1, 10, 14, 23, 13]
+    arr.sort(function(first, second) {
+        return first - second
+    });
+
+
+    // На основе массива получить одно значение
+    // Удобство метода reduce заключается в, том что он хранит промежуточное значение в параметер
+    // Итерирует с начала массива в конец отличие от reduceRight 
+    var party = 'Zho пригласил на вечеринку: ';
+    var result = wizordSort.reduce(function(prevElem, item, i, array) {
+        var message = prevElem + item.name;
+        if (i !== (array.length - 1)) {
+            message += ' ,';
+        }
+        return message;
+    }, party);
+    // console.log(result)
+
+    var inviteList = wizordSort.map(function(it) {
+        return it.name;
+    }).join(' --> ')
+    // console.log(party+inviteList)
+    </script>
 </body>
+
 </html>

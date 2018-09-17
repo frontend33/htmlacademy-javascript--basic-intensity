@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Обойдемся без условий if, а решаем через объекты 
+    var effectName='marvin'
+    var effectNameToClassName={
+        'phobos':'effect-phobos',
+        'marvin': 'effect-marvin'
+    };
+    console.log(effectNameToClassName[effectName] || 'default-effect')
+
+
+// Утинная типизация
+    var barsick={
+        name:"Barsick",
+        age: 34,
+        meow: function(){
+            return 'Мяу'
+        }
+    };
+    var vorona ={
+        name: 'carCarich',
+        woof: function(){
+            return 'Гаф!';
+        }
+    };
+
+    var isCat = function(obj){
+        return (typeof(obj.meow)==='function') && obj.name;
+    }
+    console.log(isCat(barsick)) //true
+    console.log(isCat(vorona)) //false
+
+
+    // Конструктор 
+    var CAT_TYPE='Котэ'
+    var createCat=function(name, male){
+        return {
+            kind:CAT_TYPE,
+            name:name,
+            male: male || true,
+            meow: function(){
+                return 'Мяу!'
+            }
+        }
+    };
+    var keks=createCat('Keks');
+    console.log(keks)
+    console.log(keks.kind)
+
+    var catInBag={
+        name: 'Кеша',
+        meow: function(){
+            return 'Мяу ! кеша попугай'
+        }
+    }
+    console.log(catInBag.kind)
+
+// Функция конструктор
+
+var startFirefight=function(gang){}
+var createGangster=function(nickname,weapon){
+    return {};
+};
+var mrBlonde=createGagster('Мистер Блондин')
+var mrPink=createGagster('Мистер Розовый')
+var mrOrange=createGagster('Мистер Оранжевый')
+var mrWhite=createGagster('Мистер Белый')
+var mrBlue=createGagster('Мистер Синий')
+startFirefight([mrBlonde,mrPink,mrOrange,mrWhite,mrBlue])
+
+
+    </script>
+</body>
+
+</html>

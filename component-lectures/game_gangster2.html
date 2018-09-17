@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+    var PISTOL = '\u{1F52B}'
+    var createGangster = function(nickname, weapon) {
+        return {
+            nickname: nickname,
+            weapon: PISTOL,
+            check: function() {
+                return this.weapon
+            }
+        };
+    };
+    var mrBlonde= new createGangster('Мистер блондин')
+
+
+
+// Функции конструкторы именуем с заглавной буквы, существительным в единственном числе
+    var Gangster=function(nickname){
+        this.nickname=nickname
+    }
+    // console.log(new Gangster('Мистер Блондин'))
+    var mrBlonde=new Gangster('Мистер Блондин')
+    console.log(Object.getPrototypeOf(mrBlonde))
+
+    </script>
+</body>
+
+</html>

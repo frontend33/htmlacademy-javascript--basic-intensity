@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+    // Функция конструктор
+    var OFFICER= '\u{1F46E}';
+    var isPoliceman=function(gangster){
+        return gangster.check()===OFFICER;
+    }
+
+    var startFirefight = function(gang) {
+        // Проверку условия можно поставить под телом цикла, используя специальный синтаксис do..while:
+        do {
+            var random = Math.floor(Math.random() * gang.length);
+            var gangster = gang.splice(random, 1)[0]
+            if(isPoliceman(gangster)){
+                console.log('<<' + gangster.nickname + ">> Оказался полицейсим")
+                return;
+            }
+            // Оставляем три рандомных числа плюс вызываем функцию check() в ключе который находится в объекте
+            console.log('Проверяем <<' + gangster.nickname + ' >>:' + gangster.check())
+        } while (gang.length > 1)
+        console.log('Полицейский не был обнаружен, гангстеры проиграли')
+    }
+    var PISTOL = '\u{1F52B}'
+    var createGangster = function(nickname, weapon) {
+        return {
+            nickname: nickname,
+            weapon: PISTOL,
+            check: function() {
+                return this.weapon
+            }
+        };
+    };
+    var mrBlonde = createGangster('Мистер Блондин')
+    var mrPink = createGangster('Мистер Розовый')
+    var mrOrange = createGangster('Мистер Оранжевый')
+    var mrWhite = createGangster('Мистер Белый')
+    var mrBlue = createGangster('Мистер Синий')
+  
+
+    var mrRed={
+        nickname: 'Мистер красный',
+        weapon: OFFICER,
+        check: function(){
+            return PISTOL
+        }
+    }
+    startFirefight([mrBlonde, mrPink, mrOrange, mrWhite, mrBlue, mrRed])
+    </script>
+</body>
+
+</html>
